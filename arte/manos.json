@@ -1,0 +1,156 @@
+{
+  "medidas": {
+    "mano-clara-1.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-clara-2.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-clara-3.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-clara-4.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-clara-5.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-clara-6.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-morena-1.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-morena-2.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-morena-3.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-morena-4.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-morena-5.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-morena-6.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-oscura-1.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-oscura-2.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-oscura-3.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-oscura-4.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-oscura-5.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-oscura-6.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 136,
+      "dedo_punta_y": 1,
+      "puno_arriba_y": 282
+    },
+    "mano-linea.png": {
+      "ancho": 600,
+      "alto": 1000,
+      "dedo_centro_x": 298,
+      "dedo_ancho": 152,
+      "dedo_punta_y": 0,
+      "puno_arriba_y": 282
+    }
+  }
+}

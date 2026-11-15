@@ -70,14 +70,14 @@
     return w;
   }
   /* Nube color crema con la frase (y una línea pequeña debajo, si hay) centrada en la caja */
-  function nube(x1, x2, y1, y2, principal, secundario, bn) {
+  function nube(x1, x2, y1, y2, principal, secundario, bn, cap) {
     var W = x2 - x1, H = y2 - y1; if (W < 8 || H < 5) return '';
     var L = trozos(principal), sec = String(secundario || '').trim();
     if (!L.length && !sec) return '';
     var maxw = 0.1; L.forEach(function (l) { maxw = Math.max(maxw, ancho(l)); });
     var rs = L.length ? 0.6 : 1, secw = sec ? ancho(sec) * rs : 0;
     var lineas = L.length * 1.06 + (sec ? rs * 1.12 : 0), pad = 1.5;
-    var fs = Math.min(9.5, (H - pad * 2) / lineas, (W - pad * 3.2) / Math.max(maxw, secw));
+    var fs = Math.min(cap || 9.5, (H - pad * 2) / lineas, (W - pad * 3.2) / Math.max(maxw, secw));
     var tw = Math.max(maxw, secw) * fs, th = lineas * fs, cx = (x1 + x2) / 2, cy = (y1 + y2) / 2;
     var o = rr(cx - tw / 2 - pad * 1.5, cy - th / 2 - pad, tw + pad * 3, th + pad * 2, Math.min(th / 2 + pad, 6), 'fill="' + NUBE + '"' + (bn ? ' stroke="' + TINTA + '" stroke-width=".45"' : ''));
     var y = cy - th / 2;
@@ -86,26 +86,73 @@
     return o;
   }
 
-  /* La tira. o = {L, fw, modelo:'medio'|'puntas', color, piel, zurdo, regla, frase, nombre, marca, i} */
-  function tira(o) {
-    var s = o.fw / 14, L = o.L, H = 30, x0 = 4, y0 = f(18 * s + 4), bn = o.color === 'tinta';
-    var col = COLORES[o.color] || COLORES.turquesa, piel = PIELES[o.piel] || PIELES.clara, manga = MANGAS[(o.i || 0) % MANGAS.length];
-    var W = L + 8, HT = y0 + H + 4, id = 'sp' + (++uid), manos = [];
-    if (o.modelo === 'puntas') { manos.push({ cx: x0 + 3 + 11.5 * s, g: 1 }); manos.push({ cx: x0 + L - 3 - 11.5 * s, g: -1 }); }
-    else manos.push({ cx: x0 + L / 2, g: o.zurdo ? -1 : 1 });
+  /* Manos dibujadas por Codex (arte/, 600 × 1000 px, mismas medidas en las 19): el dedo está centrado en
+     x = 298, mide 136 px de ancho y sale del puño en y = 290; la mano va de x = 150 a x = 600. */
+  var FX = 298, FW = 136, SALE = 290, PUNTA = 12, UMIN = -150, UMAX = 302, ABAJO = 800, FONDO = 1000;
+  var PIEL_IMG = { clara: 'clara', media: 'morena', oscura: 'oscura' };
+  function hrefMano(piel, i, bn) { return (window.SEPARADOR_BASE || '') + 'arte/mano-' + (bn ? 'linea' : (PIEL_IMG[piel] || 'clara') + '-' + (((i || 0) % 6) + 1)) + '.png'; }
+  /* (ax, ay) = donde el dedo sale del puño; k = px por mm; giro -1 = espejo; rot 90 = dedo hacia la derecha */
+  function manoImg(ax, ay, k, giro, rot, href) {
+    var t = 'translate(' + f(ax) + ' ' + f(ay) + ')' + (giro < 0 ? ' scale(-1 1)' : '') + (rot ? ' rotate(' + rot + ')' : '');
+    return '<g transform="' + t + '"><image href="' + href + '" xlink:href="' + href + '" x="' + f(-FX / k) + '" y="' + f(-SALE / k) + '" width="' + f(600 / k) + '" height="' + f(FONDO / k) + '" preserveAspectRatio="none"/></g>';
+  }
+  function flechas(x, cy, h, dir) {
+    var o = '', w = h * 0.45, paso = h * 0.42;
+    for (var i = 0; i < 3; i++) {
+      var xi = x + dir * i * paso;
+      o += '<polyline points="' + f(xi - dir * w) + ',' + f(cy - h / 2) + ' ' + f(xi) + ',' + f(cy) + ' ' + f(xi - dir * w) + ',' + f(cy + h / 2) + '" fill="none" stroke="' + TINTA + '" stroke-width="' + f(h * 0.16) + '" stroke-linecap="round" stroke-linejoin="round"/>';
+    }
+    return o;
+  }
 
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" class="tira-svg" width="' + f(W) + 'mm" height="' + f(HT) + 'mm" viewBox="0 0 ' + f(W) + ' ' + f(HT) + '" role="img" aria-label="Tira separadora de palabras">';
-    svg += '<defs><clipPath id="' + id + '">' + rr(x0, y0, L, H, 6) + '<rect x="' + x0 + '" y="0" width="' + L + '" height="' + f(y0 + 8) + '"/></clipPath></defs>';
+  /* La tira. o = {L, fw, modelo:'medio'|'puntas'|'punta'|'dospuntas', color, piel, zurdo, regla, frase, nombre, marca, i}
+     medio y puntas: el dedo sale por arriba (la tira va a lo largo del renglón).
+     punta y dospuntas: el dedo sale por el extremo (la tira se pone cruzando el renglón). */
+  function tira(o) {
+    var fw = o.fw, k = FW / fw, L = o.L, bn = o.color === 'tinta', col = COLORES[o.color] || COLORES.turquesa, href = hrefMano(o.piel, o.i, bn);
+    var dl = (SALE - PUNTA) / k, dm = FW / 2 / k, largoMano = (FONDO - SALE) / k, id = 'sp' + (++uid);
+    var lateral = o.modelo === 'punta' || o.modelo === 'dospuntas';
+    var x0 = 4, y0, H, Lc, W, HT, manos = [], dedos = [], zona, cap = 9.5, flechasSvg = '';
+    if (!lateral) {
+      H = (ABAJO - SALE) / k; y0 = dl + 4; Lc = L;
+      if (o.modelo === 'puntas') {
+        Lc = Math.max(L, 2 * (UMAX - UMIN) / k + 40);
+        manos.push({ ax: x0 + 3 - UMIN / k, g: 1 }); manos.push({ ax: x0 + Lc - 3 + UMIN / k, g: -1 });
+        zona = [manos[0].ax + UMAX / k + 2, manos[1].ax - UMAX / k - 2];
+      } else {
+        var m0 = { ax: x0 + Lc / 2, g: o.zurdo ? -1 : 1 }; manos.push(m0);
+        zona = null;
+      }
+      manos.forEach(function (m) { m.ay = y0; m.rot = 0; dedos.push([m.ax - dm - 3, y0 - dl - 3, 2 * dm + 6, dl + 8, dm + 3]); });
+      W = Lc + 8; HT = y0 + H + 4;
+    } else {
+      var izq = o.modelo === 'dospuntas' || !!o.zurdo, der = o.modelo === 'dospuntas' || !o.zurdo;
+      var exL = izq ? dl : 0, exR = der ? dl : 0;
+      H = (UMAX - UMIN) / k + 4; y0 = 4; cap = 13;
+      Lc = Math.max(L - exL - exR, (izq + der) * largoMano + 45);
+      x0 = 4 + exL; var ay = y0 + 2 - UMIN / k;
+      if (izq) { manos.push({ ax: x0, ay: ay, g: -1, rot: 90 }); dedos.push([x0 - dl - 3, ay - dm - 3, dl + 8, 2 * dm + 6, dm + 3]); }
+      if (der) { manos.push({ ax: x0 + Lc, ay: ay, g: 1, rot: 90 }); dedos.push([x0 + Lc - 5, ay - dm - 3, dl + 8, 2 * dm + 6, dm + 3]); }
+      zona = [izq ? x0 + largoMano + 2 : x0 + 4, der ? x0 + Lc - largoMano - 2 : x0 + Lc - 4];
+      W = Lc + exL + exR + 8; HT = H + 8;
+      var fh = Math.min(H * 0.32, 13), fy = y0 + (H - (o.regla ? 7.5 : 0)) / 2;
+      var hayHueco = (zona[1] - zona[0]) - (izq + der) * (3 * fh * 0.42 + fh * 0.5 + 2) > 70;
+      if (!hayHueco) fh = 0;
+      if (der && fh) { flechasSvg += flechas(zona[1] - 2 * fh * 0.42, fy, fh, 1); zona[1] -= 3 * fh * 0.42 + fh * 0.5 + 2; }
+      if (izq && fh) { flechasSvg += flechas(zona[0] + 2 * fh * 0.42, fy, fh, -1); zona[0] += 3 * fh * 0.42 + fh * 0.5 + 2; }
+    }
+
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="tira-svg" width="' + f(W) + 'mm" height="' + f(HT) + 'mm" viewBox="0 0 ' + f(W) + ' ' + f(HT) + '" role="img" aria-label="Tira separadora de palabras">';
+    svg += '<defs><clipPath id="' + id + '">' + rr(x0, y0, Lc, H, 6) + (lateral ? dedos.map(function (d) { return rr(d[0] + 2, d[1] + 2, d[2] - 4, d[3] - 4, d[4] - 2); }).join('') : '<rect x="' + f(x0) + '" y="0" width="' + f(Lc) + '" height="' + f(y0 + 8) + '"/>') + '</clipPath></defs>';
     /* línea de corte: las formas agrandadas 3 mm, primero el trazo de puntos y encima el relleno blanco: queda solo el contorno de fuera */
-    var formas = [[x0 - 3, y0 - 3, L + 6, H + 6, 9]];
-    manos.forEach(function (m) { formas.push([m.cx - 7 * s - 3, y0 - 18 * s - 3, 14 * s + 6, 18 * s + 8, 7 * s + 3]); });
+    var formas = [[x0 - 3, y0 - 3, Lc + 6, H + 6, 9]].concat(dedos);
     formas.forEach(function (r) { svg += rr(r[0], r[1], r[2], r[3], r[4], 'fill="none" stroke="#8F8499" stroke-width=".35" stroke-dasharray="1.6 1.1"'); });
     formas.forEach(function (r) { svg += rr(r[0], r[1], r[2], r[3], r[4], 'fill="#FFFFFF"'); });
-    svg += rr(x0, y0, L, H, 6, 'fill="' + col[0] + '"');
+    svg += rr(x0, y0, Lc, H, 6, 'fill="' + col[0] + '"');
     if (o.regla) {
       var ry = y0 + H - 7.5, t = '';
-      t += rr(x0, ry, L, 7.5, 0, 'fill="' + col[1] + '"') + '<line x1="' + x0 + '" x2="' + (x0 + L) + '" y1="' + f(ry) + '" y2="' + f(ry) + '" stroke="' + TINTA + '" stroke-width=".3"/>';
-      var maxmm = Math.floor(L - 8), path = '', num = '';
+      t += rr(x0, ry, Lc, 7.5, 0, 'fill="' + col[1] + '"') + '<line x1="' + f(x0) + '" x2="' + f(x0 + Lc) + '" y1="' + f(ry) + '" y2="' + f(ry) + '" stroke="' + TINTA + '" stroke-width=".3"/>';
+      var maxmm = Math.floor(Lc - 8), path = '', num = '';
       for (var mm = 0; mm <= maxmm; mm++) {
         var x = x0 + 4 + mm, l = mm % 10 === 0 ? 2.8 : (mm % 5 === 0 ? 1.9 : 1.1);
         path += 'M' + f(x) + ' ' + f(ry) + 'v' + l;
@@ -114,25 +161,24 @@
       t += '<path d="' + path + '" stroke="' + TINTA + '" stroke-width=".22" fill="none"/>' + num;
       svg += '<g clip-path="url(#' + id + ')">' + t + '</g>';
     }
-    svg += rr(x0, y0, L, H, 6, 'fill="none" stroke="' + TINTA + '" stroke-width=".9"');
+    svg += rr(x0, y0, Lc, H, 6, 'fill="none" stroke="' + TINTA + '" stroke-width=".9"');
     var ty1 = y0 + 2.6, ty2 = y0 + H - (o.regla ? 9.2 : 2.6), nombre = String(o.nombre || '').trim(), frase = String(o.frase || '').trim();
-    if (o.modelo === 'puntas') {
-      svg += nube(x0 + 3 + 31 * s + 2, x0 + L - 3 - 31 * s - 2, ty1, ty2, frase, nombre, bn);
-    } else {
-      var m = manos[0], izq = o.zurdo ? m.cx - 19.5 * s - 2.5 : m.cx - 11.5 * s - 2.5, der = o.zurdo ? m.cx + 11.5 * s + 2.5 : m.cx + 19.5 * s + 2.5;
-      svg += nube(x0 + 4, izq, ty1, ty2, frase, '', bn);
-      svg += nube(der, x0 + L - 4, ty1, ty2, nombre || 'UN DEDO DE ESPACIO', '', bn);
+    if (zona) svg += nube(zona[0], zona[1], ty1, ty2, frase, nombre, bn, cap);
+    else {
+      var m = manos[0], izqF = m.g < 0 ? m.ax - UMAX / k - 2 : m.ax + UMIN / k - 2, derI = m.g < 0 ? m.ax - UMIN / k + 2 : m.ax + UMAX / k + 2;
+      svg += nube(x0 + 4, izqF, ty1, ty2, frase, '', bn, cap);
+      svg += nube(derI, x0 + Lc - 4, ty1, ty2, nombre || 'UN DEDO DE ESPACIO', '', bn, cap);
     }
-    svg += '<g clip-path="url(#' + id + ')">' + manos.map(function (m) { return mano(m.cx, y0, s, m.g, piel, manga, bn); }).join('') + '</g>';
-    if (o.marca) svg += '<text x="' + f(x0 + L - 9) + '" y="' + f(y0 + H + 2.3) + '" font-size="1.9" text-anchor="end" font-family="' + LETRA + '" fill="#8F8499">ColmenIA · Gabinete Fönia</text>';
+    svg += flechasSvg;
+    svg += '<g clip-path="url(#' + id + ')">' + manos.map(function (m) { return manoImg(m.ax, m.ay, k, m.g, m.rot, href); }).join('') + '</g>';
+    if (o.marca) svg += '<text x="' + f(x0 + Lc - 9) + '" y="' + f(y0 + H + 2.3) + '" font-size="1.9" text-anchor="end" font-family="' + LETRA + '" fill="#8F8499">ColmenIA · Gabinete Fönia</text>';
     return { svg: svg + '</svg>', w: W, h: HT };
   }
 
   /* Dedo pequeño suelto (para la hoja de práctica): de pie sobre la línea, ancho = hueco */
   function dedito(cx, base, fw, piel, bn) {
-    var h = fw * 1.5, sk = bn ? '#FFFFFF' : piel[0], y = base - h;
-    return rr(cx - fw / 2, y, fw, h, fw / 2, 'fill="' + sk + '" stroke="' + TINTA + '" stroke-width=".45"') +
-      '<path d="M' + f(cx - fw * 0.25) + ' ' + f(y + h * 0.42) + ' q' + f(fw * 0.25) + ' ' + f(fw * 0.1) + ' ' + f(fw * 0.5) + ' 0M' + f(cx - fw * 0.25) + ' ' + f(y + h * 0.6) + ' q' + f(fw * 0.25) + ' ' + f(fw * 0.1) + ' ' + f(fw * 0.5) + ' 0" fill="none" stroke="' + TINTA + '" stroke-width=".35"/>';
+    var k = FW / fw, x1 = FX - 70, alto = 215, w = 140 / k, h = alto / k, href = hrefMano(piel, 0, bn);
+    return '<svg x="' + f(cx - w / 2) + '" y="' + f(base - h) + '" width="' + f(w) + '" height="' + f(h) + '" viewBox="' + x1 + ' ' + PUNTA + ' 140 ' + alto + '" preserveAspectRatio="none"><image href="' + href + '" xlink:href="' + href + '" width="600" height="1000"/></svg>';
   }
 
   /* Hoja de práctica (A4 apaisado, caja útil 281 × 194 mm): frase modelo con dedos entre palabras y dos renglones para copiarla */
@@ -163,7 +209,7 @@
         }
       });
       svg += '<text x="' + (W - 4) + '" y="' + (H - 2) + '" font-size="2.6" text-anchor="end" font-family="' + LETRA + '" fill="#8F8499">ColmenIA · Gabinete Fönia · Separador de palabras</text>';
-      paginas.push(svg + '</svg>');
+      paginas.push(svg.replace('<svg xmlns="http://www.w3.org/2000/svg"', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"') + '</svg>');
     }
     return paginas;
   }
@@ -173,10 +219,10 @@
     var W = 281, H = 194, piel = PIELES[o.piel] || PIELES.clara, bn = o.color === 'tinta', col = COLORES[o.color] || COLORES.turquesa;
     var c0 = bn ? TINTA : col[0], c1 = bn ? '#FFFFFF' : col[1];
     var nombre = String(o.nombre || '').trim();
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + 'mm" height="' + H + 'mm" viewBox="0 0 ' + W + ' ' + H + '">';
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="' + W + 'mm" height="' + H + 'mm" viewBox="0 0 ' + W + ' ' + H + '">';
     svg += rr(3, 3, W - 6, H - 6, 12, 'fill="' + c1 + '" stroke="' + c0 + '" stroke-width="3"');
     svg += rr(11, 11, W - 22, H - 22, 8, 'fill="#FFFFFF" stroke="' + TINTA + '" stroke-width=".6" stroke-dasharray="2 1.6"');
-    svg += mano(38, 128, 1.55, 1, piel, MANGAS[0], bn) + mano(W - 38, 128, 1.55, -1, piel, MANGAS[2], bn);
+    svg += manoImg(32, 112, 12, 1, 0, hrefMano(o.piel, 0, bn)) + manoImg(W - 32, 112, 12, -1, 0, hrefMano(o.piel, 2, bn));
     svg += '<text x="' + W / 2 + '" y="44" font-size="20" text-anchor="middle" font-family="' + LETRA_T + '" font-weight="600" fill="' + TINTA + '">¡Diploma!</text>';
     svg += '<text x="' + W / 2 + '" y="60" font-size="7" text-anchor="middle" font-family="' + LETRA + '" fill="' + TINTA + '">de escritor o escritora con espacios</text>';
     svg += rr(W / 2 - 70, 70, 140, 26, 13, 'fill="' + NUBE + '" stroke="' + (bn ? TINTA : 'none') + '" stroke-width=".5"');
@@ -189,5 +235,5 @@
     return svg + '</svg>';
   }
 
-  window.SEPARADOR = { tira: tira, hoja: hoja, diploma: diploma, mano: mano, COLORES: COLORES, ORDEN: ORDEN, PIELES: PIELES, MANGAS: MANGAS, TINTA: TINTA };
+  window.SEPARADOR = { hrefMano: hrefMano, tira: tira, hoja: hoja, diploma: diploma, mano: mano, COLORES: COLORES, ORDEN: ORDEN, PIELES: PIELES, MANGAS: MANGAS, TINTA: TINTA };
 })();

@@ -90,7 +90,6 @@
   /* ---------- pruébalo: ¿dónde va el hueco? ---------- */
   (function () {
     var FRASES = ['el sol', 'mi mamá', 'la casa', 'el gato come', 'mamá me mima', 'el perro corre', 'la luna brilla', 'papá lee un cuento', 'me gusta el helado', 'la abeja vuela alto', 'veo un pez rojo', 'mi oso tiene sueño'];
-    var DEDO = '<svg viewBox="0 0 26 64" aria-hidden="true"><rect x="5" y="2" width="16" height="62" rx="8" fill="#FAD3AA" stroke="#3A2449" stroke-width="2"/><path d="M9 20q4 1.6 8 0M9 27q4 1.6 8 0" stroke="#3A2449" stroke-width="1.4" fill="none"/></svg>';
     var caja = $('frase'), msg = $('jmsg'), n = 0, frase = '', faltan = 0, terminadas = 0;
     function voz(t) {
       try {
@@ -116,7 +115,7 @@
     function toca() {
       var b = this; if (b.className.indexOf('ok') >= 0) return;
       if (b.dataset.bien) {
-        b.className = 'hu ok'; b.innerHTML = DEDO; b.setAttribute('aria-label', 'Hueco puesto'); faltan--;
+        b.className = 'hu ok'; b.setAttribute('aria-label', 'Hueco puesto'); faltan--;
         if (faltan <= 0) { msg.textContent = '¡Muy bien! «' + frase + '»'; voz(frase); terminadas++; if (terminadas === 1) una('separa_juego_frase'); if (terminadas === 5) una('separa_juego_cinco'); }
         else msg.textContent = '¡Eso es! Busca el siguiente hueco.';
       } else {
@@ -129,7 +128,7 @@
   })();
 
   /* ---------- taller ---------- */
-  var A = { modelo: 'medio', color: 'turquesa', piel: 'clara', fw: 14, L: 260, zurdo: false, regla: true, mezcla: false, frase: 'DEJA ESPACIO', otra: '' };
+  var A = { modelo: 'punta', color: 'turquesa', piel: 'clara', fw: 14, L: 260, zurdo: false, regla: true, mezcla: false, frase: 'DEJA ESPACIO', otra: '' };
   try { var g = JSON.parse(localStorage.getItem('separa-ajustes') || 'null'); if (g) for (var k in g) if (A.hasOwnProperty(k)) A[k] = g[k]; } catch (e) { }
   function guarda() { try { localStorage.setItem('separa-ajustes', JSON.stringify(A)); } catch (e) { } }
   function nombre() { return String($('nombre').value || '').replace(/[<>]/g, '').trim(); }
@@ -175,7 +174,12 @@
   var tPersonal = null;
   function cambia() {
     guarda();
-    $('modeloAyuda').textContent = A.modelo === 'puntas' ? 'Los dos dedos marcan dónde empieza y dónde acaba una palabra: la palabra se escribe entre ellos.' : 'Se escribe una palabra antes del dedo y la siguiente después.';
+    $('modeloAyuda').textContent = {
+      punta: 'La tira se pone cruzando el renglón y el dedo entra justo donde acaba la palabra.',
+      dospuntas: 'Como la de la punta, con un dedo en cada extremo: vale para los dos lados y para diestros y zurdos.',
+      medio: 'La tira va a lo largo, debajo del renglón: una palabra antes del dedo y la siguiente después.',
+      puntas: 'Los dos dedos marcan dónde empieza y dónde acaba una palabra: la palabra se escribe entre ellos.'
+    }[A.modelo] || '';
     var t = S.tira(opciones());
     $('vista').innerHTML = t.svg;
     var r = reparto(t);
@@ -183,6 +187,12 @@
     clearTimeout(tPersonal); tPersonal = setTimeout(function () { una('separa_personaliza'); }, 4000);
   }
   cambia();
+
+  /* las manos se piden antes, para que estén cuando se imprima */
+  setTimeout(function () {
+    ['clara', 'morena', 'oscura'].forEach(function (p) { for (var i = 1; i <= 6; i++) new Image().src = 'arte/mano-' + p + '-' + i + '.png'; });
+    new Image().src = 'arte/mano-linea.png';
+  }, 1500);
 
   /* ---------- imprimir ---------- */
   var caja = $('imprimir');
@@ -193,7 +203,11 @@
   function imprime(clave) {
     suma('separa_' + clave); suma('separa_imprime_dia_' + hoy());
     pendiente = true;
-    setTimeout(function () { try { window.print(); } catch (e) { } }, 60);
+    var urls = {}, faltan = 0, hecho = false;
+    caja.innerHTML.replace(/href="(arte\/[^"]+)"/g, function (m, u) { urls[u] = 1; });
+    function ya() { if (hecho) return; hecho = true; setTimeout(function () { try { window.print(); } catch (e) { } }, 80); }
+    Object.keys(urls).forEach(function (u) { faltan++; var im = new Image(); im.onload = im.onerror = function () { if (--faltan <= 0) ya(); }; im.src = u; });
+    if (!faltan) ya(); setTimeout(ya, 2500);
   }
   $('bTiras').onclick = function () {
     var t0 = S.tira(opciones()), r = reparto(t0), hojas = $('cDos').checked ? 2 : 1, lista = [];

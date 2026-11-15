@@ -94,7 +94,7 @@ header nav a:hover{background:var(--lila)}
 .hu:hover::after{background:var(--lila2)}
 .hu.ok{width:46px;margin:0 2px;cursor:default}
 .hu.ok::after{display:none}
-.hu.ok svg{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:26px}
+.hu.ok{background:url(arte/mano-clara-1.png) center bottom/46px auto no-repeat}
 .hu.mal{animation:temblor .4s}
 @keyframes temblor{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .hu.mal::after{background:#E0473C}
@@ -200,7 +200,7 @@ footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
   <h2>Cómo se usa</h2>
   <p class="sub">El dedo de la tira ocupa justo el hueco que tiene que quedar entre dos palabras.</p>
   <div class="caja">
-    <svg id="escena" viewBox="0 0 340 150" role="img" aria-label="Animación: se escribe una palabra, se pone el dedo de la tira detrás y se escribe la siguiente">
+    <svg id="escena" viewBox="0 0 340 150" overflow="hidden" role="img" aria-label="Animación: se escribe una palabra, se pone el dedo de la tira detrás y se escribe la siguiente">
       <rect x="0" y="0" width="340" height="150" fill="#FFFFFF"/>
       <line x1="10" x2="330" y1="46" y2="46" stroke="#DCE4F4" stroke-width="1"/>
       <line x1="10" x2="330" y1="86" y2="86" stroke="#B8C6E6" stroke-width="1.4"/>
@@ -209,20 +209,12 @@ footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
       <text class="pal" id="p1" x="20" y="84">El</text>
       <text class="pal" id="p2" x="0" y="84">gato</text>
       <text class="pal" id="p3" x="0" y="84">come.</text>
+      <defs><clipPath id="corteMini"><rect x="-85" y="92" width="170" height="52" rx="8"/><rect x="-85" y="0" width="170" height="96"/></clipPath></defs>
       <g id="tiraMini" style="transform:translate(-120px,0)">
-        <rect x="-80" y="92" width="160" height="34" rx="7" fill="#22A39C" stroke="#3A2449" stroke-width="1.5"/>
-        <rect x="-76" y="117" width="152" height="6" fill="#9BE2D9"/>
-        <rect x="-7" y="54" width="14" height="50" rx="7" fill="#FAD3AA" stroke="#3A2449" stroke-width="1.4"/>
-        <path d="M-3.4 70q3.4 1.3 6.8 0M-3.4 76q3.4 1.3 6.8 0" stroke="#3A2449" stroke-width="1" fill="none"/>
-        <rect x="-10" y="92" width="29" height="22" rx="8" fill="#FAD3AA" stroke="#3A2449" stroke-width="1.4"/>
-        <rect x="5" y="92.5" width="14" height="7" rx="3.5" fill="#FAD3AA" stroke="#3A2449" stroke-width="1.2"/>
-        <rect x="5" y="99.5" width="14" height="7" rx="3.5" fill="#FAD3AA" stroke="#3A2449" stroke-width="1.2"/>
-        <rect x="5" y="106.5" width="14" height="7" rx="3.5" fill="#FAD3AA" stroke="#3A2449" stroke-width="1.2"/>
-        <rect x="-11" y="101.5" width="18" height="7.5" rx="3.7" fill="#FAD3AA" stroke="#3A2449" stroke-width="1.2"/>
-        <rect x="-11.5" y="112" width="31" height="14" rx="2.5" fill="#3B7DD8" stroke="#3A2449" stroke-width="1.4"/>
-        <path d="M-11 116.5h30M-11 120.5h30" stroke="#fff" stroke-width="1.6"/>
-        <text x="-44" y="111" font-family="Jost, sans-serif" font-weight="600" font-size="9" fill="#FFF6DE" text-anchor="middle">DEJA</text>
-        <text x="50" y="111" font-family="Jost, sans-serif" font-weight="600" font-size="9" fill="#FFF6DE" text-anchor="middle">ESPACIO</text>
+        <rect x="-85" y="92" width="170" height="52" rx="8" fill="#22A39C" stroke="#3A2449" stroke-width="1.5"/>
+        <text x="-52" y="122" font-family="Jost, sans-serif" font-weight="600" font-size="11" fill="#FFF6DE" text-anchor="middle">DEJA</text>
+        <text x="58" y="122" font-family="Jost, sans-serif" font-weight="600" font-size="11" fill="#FFF6DE" text-anchor="middle">ESPACIO</text>
+        <g clip-path="url(#corteMini)"><image href="arte/mano-clara-1.png" x="-30.68" y="62.15" width="61.76" height="102.94" preserveAspectRatio="none"/></g>
       </g>
     </svg>
     <div class="pasos">
@@ -260,8 +252,10 @@ footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
       <div class="campo">
         <span class="tit">Modelo</span>
         <div class="opciones" id="oModelo">
-          <button type="button" data-v="medio">☝️ Un dedo en medio</button>
-          <button type="button" data-v="puntas">☝️ ☝️ Un dedo en cada punta</button>
+          <button type="button" data-v="punta">👉 Dedo en la punta</button>
+          <button type="button" data-v="dospuntas">👈 👉 Dedo en las dos puntas</button>
+          <button type="button" data-v="medio">☝️ Dedo arriba, en medio</button>
+          <button type="button" data-v="puntas">☝️ ☝️ Dedos arriba, en los extremos</button>
         </div>
         <small id="modeloAyuda"></small>
       </div>
@@ -387,7 +381,7 @@ la abeja vuela alto</textarea>
 
 <div id="imprimir" aria-hidden="true"></div>
 
-<script src="dibujo.js?v=1"></script>
-<script src="app.js?v=1"></script>
+<script src="dibujo.js?v=2"></script>
+<script src="app.js?v=2"></script>
 </body>
 </html>
