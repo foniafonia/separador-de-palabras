@@ -119,6 +119,10 @@
         Lc = Math.max(L, 2 * (UMAX - UMIN) / k + 40);
         manos.push({ ax: x0 + 3 - UMIN / k, g: 1 }); manos.push({ ax: x0 + Lc - 3 + UMIN / k, g: -1 });
         zona = [manos[0].ax + UMAX / k + 2, manos[1].ax - UMAX / k - 2];
+      } else if (o.lado === 'izq') {
+        /* como la hoja de José: la mano a la izquierda y la frase con el nombre a la derecha */
+        manos.push({ ax: x0 + 3 - UMIN / k, g: 1 });
+        zona = [manos[0].ax + UMAX / k + 2, x0 + Lc - 3];
       } else {
         var m0 = { ax: x0 + Lc / 2, g: o.zurdo ? -1 : 1 }; manos.push(m0);
         zona = null;

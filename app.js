@@ -65,9 +65,12 @@
   try { var g = JSON.parse(localStorage.getItem('separa-ajustes2') || 'null'); if (g) { if (/^(medio|puntas)$/.test(g.modelo)) A.modelo = g.modelo; if (g.color) A.color = g.color; } } catch (e) { }
   function guarda() { try { localStorage.setItem('separa-ajustes2', JSON.stringify(A)); } catch (e) { } }
   function nombre() { return String($('nombre').value || '').replace(/[<>]/g, '').trim(); }
+  /* folio vertical (los móviles no hacen caso al folio tumbado): un dedo 2 × 3 = 6, dos dedos 1 × 3 = 3 */
+  function porFolio() { return A.modelo === 'puntas' ? 3 : 6; }
   function tira(n) {
+    var uno = A.modelo !== 'puntas';
     return S.tira({
-      L: 130, fw: 14, modelo: A.modelo, regla: true, zurdo: false, i: n,
+      L: uno ? 88 : 184, fw: 12, modelo: A.modelo, lado: uno ? 'izq' : '', regla: true, zurdo: false, i: n,
       color: A.color === 'mix' ? S.ORDEN[n % S.ORDEN.length] : A.color,
       piel: PIELES[n % 3], frase: FRASES[n % FRASES.length], nombre: nombre(),
       marca: FONIA ? 'Gabinete Fönia' : 'ColmenIA · Gabinete Fönia'
@@ -92,7 +95,9 @@
   var tPersonal = null;
   function cambia() {
     guarda();
-    $('vista').innerHTML = tira(0).svg + tira(1).svg;
+    $('vista').className = A.modelo === 'puntas' ? 'vista una' : 'vista';
+    $('vista').innerHTML = A.modelo === 'puntas' ? tira(0).svg : tira(0).svg + tira(1).svg;
+    $('cuantas').textContent = porFolio();
     clearTimeout(tPersonal); tPersonal = setTimeout(function () { una('separa_personaliza'); }, 4000);
   }
   $('nombre').oninput = cambia;
@@ -104,10 +109,10 @@
     new Image().src = 'arte/mano-linea.png';
   }, 1500);
 
-  /* ---------- imprimir: 4 tiras por folio tumbado ---------- */
+  /* ---------- imprimir: un folio vertical ---------- */
   var caja = $('imprimir'), pendiente = false;
   $('bTiras').onclick = function () {
-    var svgs = []; for (var n = 0; n < 4; n++) svgs.push(tira(n).svg);
+    var svgs = []; for (var n = 0; n < porFolio(); n++) svgs.push(tira(n).svg);
     caja.innerHTML = ''; var p = el('div', 'pag'); p.innerHTML = svgs.join(''); caja.appendChild(p);
     suma('separa_imprime_tiras'); suma('separa_imprime_dia_' + hoy());
     pendiente = true;
