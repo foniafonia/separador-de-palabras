@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Separador de palabras · cuánta gente lo abre</title>
+<style>
+  body{font:17px/1.5 system-ui,-apple-system,sans-serif;max-width:680px;margin:0 auto;padding:22px 16px 60px;background:#F6F2F8;color:#3A2449}
+  h1{font-size:26px;margin:0 0 4px}h2{font-size:19px;margin:26px 0 8px}
+  .sub{color:#6B5A78;margin:0 0 18px}
+  .cajas{display:flex;flex-wrap:wrap;margin:0 -5px}
+  .caja{flex:1 1 140px;margin:5px;background:#fff;border:1px solid #E7DCEB;border-radius:16px;padding:12px 14px}
+  .caja b{display:block;font-size:34px;line-height:1.1}
+  .caja span{font-size:14px;color:#6B5A78}
+  .caja.gorda{background:#3A2449;color:#fff;border-color:#3A2449}.caja.gorda span{color:#E3D6F2}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E7DCEB}
+  th,td{padding:8px 10px;text-align:right;border-bottom:1px solid #F0EAF3;font-variant-numeric:tabular-nums}
+  th:first-child,td:first-child{text-align:left}th{font-size:13px;color:#6B5A78;font-weight:600}
+  .nota{font-size:14px;color:#6B5A78}
+  button{font:inherit;font-weight:700;padding:10px 16px;border-radius:12px;border:0;background:#3A2449;color:#fff;cursor:pointer}
+  a{color:#6A3FB0}
+</style>
+</head>
+<body>
+<h1>☝️ Separador de palabras</h1>
+<p class="sub">Cuánta gente lo abre y qué hace. <span id="hora"></span></p>
+
+<div class="cajas">
+  <div class="caja gorda"><b id="n_personas">…</b><span>aparatos distintos que lo han abierto</span></div>
+  <div class="caja"><b id="n_aperturas">…</b><span>veces abierto</span></div>
+  <div class="caja"><b id="n_tiras">…</b><span>veces que imprimen tiras</span></div>
+  <div class="caja"><b id="n_hoja">…</b><span>hojas de práctica</span></div>
+  <div class="caja"><b id="n_diploma">…</b><span>diplomas</span></div>
+  <div class="caja"><b id="n_personaliza">…</b><span>visitas que diseñan su tira</span></div>
+  <div class="caja"><b id="n_juego">…</b><span>visitas que resuelven una frase en «Pruébalo»</span></div>
+  <div class="caja"><b id="n_anim">…</b><span>visitas que pasan la animación a mano</span></div>
+</div>
+
+<h2>¿Les acerca a la comunidad?</h2>
+<div class="cajas">
+  <div class="caja gorda"><b id="n_skool_personas">…</b><span>aparatos distintos que han ido a Skool</span></div>
+  <div class="caja"><b id="n_skool_pagina">…</b><span>desde la página</span></div>
+  <div class="caja"><b id="n_skool_tras">…</b><span>después de imprimir</span></div>
+  <div class="caja"><b id="n_gracias">…</b><span>veces que salió «¿Ya la tienes?»</span></div>
+</div>
+
+<h2>¿De dónde llegan?</h2>
+<p class="nota">Solo las aperturas con enlace de canal (?c=wa, tg, fb, ig, sk, ln).</p>
+<table><thead><tr><th>Canal</th><th>Aperturas</th><th>Aparatos nuevos</th><th>A Skool</th></tr></thead><tbody id="canales"></tbody></table>
+
+<h2>Por días</h2>
+<p class="nota" id="cargando">Los números van llegando poco a poco (unos 30 segundos).</p>
+<table><thead><tr><th>Día</th><th>Nuevos</th><th>Abren</th><th>Imprimen</th><th>Skool</th></tr></thead><tbody id="dias"></tbody></table>
+
+<p style="margin-top:18px"><button type="button" onclick="location.reload()">↻ Actualizar</button></p>
+<p class="nota"><b>Aparatos distintos</b> es lo más parecido a «personas»: cada móvil, tableta u ordenador cuenta una vez. No se guarda nada de nadie: solo sumas.</p>
+<p class="nota"><b>Para que tu aparato no cuente:</b> abre una vez <a href="./?yo=1">la página con ?yo=1</a> en cada aparato tuyo. Para que vuelva a contar, <a href="./?yo=0">ábrela con ?yo=0</a>.</p>
+
+<script>
+(function () {
+  var BASE = 'https://abacus.jasoncameron.dev/get/foniafonia-separador-lanz/';
+  var cola = Promise.resolve();
+  function pausa(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function pide(k, intento) {
+    return fetch(BASE + k).then(function (r) {
+      if (r.status === 404) return 0;
+      if (r.status === 429 && intento < 3) return pausa(4000).then(function () { return pide(k, intento + 1); });
+      if (!r.ok) return null;
+      return r.json().then(function (j) { return j && j.value ? j.value : 0; });
+    }).catch(function () { return null; });
+  }
+  function lee(k) { var p = cola.then(function () { return pide(k, 0); }); cola = p.then(function () { return pausa(450); }); return p; }
+  function pon(id, v) { document.getElementById(id).textContent = v === null ? '—' : v; }
+  var d0 = new Date(); document.getElementById('hora').textContent = 'Mirado el ' + d0.toLocaleDateString('es-ES') + ' a las ' + d0.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '.';
+  [['n_personas', 'separa_personas'], ['n_aperturas', 'separa_aperturas'], ['n_tiras', 'separa_imprime_tiras'], ['n_hoja', 'separa_imprime_hoja'], ['n_diploma', 'separa_imprime_diploma'],
+   ['n_personaliza', 'separa_personaliza'], ['n_juego', 'separa_juego_frase'], ['n_anim', 'separa_animacion'],
+   ['n_skool_personas', 'separa_skool_personas'], ['n_skool_pagina', 'separa_skool_pagina'], ['n_skool_tras', 'separa_skool_tras_imprimir'], ['n_gracias', 'separa_gracias_vista']
+  ].forEach(function (p) { lee(p[1]).then(function (v) { pon(p[0], v); }); });
+  var CANALES = [['wa', 'WhatsApp'], ['tg', 'Telegram'], ['fb', 'Facebook'], ['ig', 'Instagram'], ['sk', 'Skool'], ['ln', 'LinkedIn']];
+  Promise.all(CANALES.map(function (c) { return Promise.all([lee('separa_canal_' + c[0]), lee('separa_personas_canal_' + c[0]), lee('separa_skool_canal_' + c[0])]); })).then(function (fs) {
+    var tb = document.getElementById('canales'); tb.innerHTML = '';
+    fs.forEach(function (f, i) { var tr = document.createElement('tr'); [CANALES[i][1], f[0], f[1], f[2]].forEach(function (v) { var td = document.createElement('td'); td.textContent = v === null ? '—' : v; tr.appendChild(td); }); tb.appendChild(tr); });
+  });
+  var DESDE = '20261115', dias = [], hoy = new Date();
+  for (var i = 0; i < 14; i++) dias.push(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() - i));
+  function clave(d) { return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2); }
+  Promise.all(dias.map(function (d) { var k = clave(d); if (k < DESDE) return null; return Promise.all([lee('separa_personas_' + k), lee('separa_aperturas_' + k), lee('separa_imprime_dia_' + k), lee('separa_skool_dia_' + k)]); })).then(function (filas) {
+    var tb = document.getElementById('dias'); tb.innerHTML = '';
+    filas.forEach(function (f, i) {
+      if (!f) return; var tr = document.createElement('tr'), d = dias[i];
+      [d.toLocaleDateString('es-ES', { weekday: 'short' }) + ' ' + d.getDate() + '/' + (d.getMonth() + 1)].concat(f).forEach(function (v) { var td = document.createElement('td'); td.textContent = v === null ? '—' : v; tr.appendChild(td); });
+      tb.appendChild(tr);
+    });
+    document.getElementById('cargando').style.display = 'none';
+  });
+})();
+</script>
+</body>
+</html>
