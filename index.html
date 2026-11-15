@@ -52,7 +52,23 @@ h2{font-size:clamp(26px,4.6vw,36px);margin-bottom:8px}
 header{padding:12px 0;border-bottom:1px solid var(--linea);background:var(--fondo);position:sticky;top:0;z-index:5}
 header .envoltura{display:flex;align-items:center;gap:10px}
 .marca{font:600 20px var(--titulo);display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--tinta)}
-.marca span{color:var(--oro2)}
+.marca span span{color:var(--oro2)}
+.marca .m-x{color:var(--tinta2);font-weight:500;font-size:16px}
+.marca .m-fonia{font-size:17px;font-weight:500}
+@media (max-width:420px){.marca .m-x,.marca .m-fonia{display:none}}
+body.fonia .m-colmenia,body.fonia .m-x{display:none}
+body.fonia .marca .m-fonia{display:inline;font-size:20px;font-weight:600}
+.figura{margin:0;background:#fff;border:1px solid var(--linea);border-radius:20px;overflow:hidden}
+.figura img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:var(--crema)}
+.figura figcaption{padding:12px 14px;font-size:16px}
+.figura figcaption b{display:block;font:600 18px var(--titulo);margin-bottom:2px}
+.pasos-imp{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;counter-reset:p}
+.paso-imp{background:#fff;border:1px solid var(--linea);border-radius:20px;padding:14px;text-align:center}
+.paso-imp img{width:100%;max-width:200px;height:auto;aspect-ratio:1;object-fit:contain;display:block;margin:0 auto 8px;background:var(--crema);border-radius:16px}
+.paso-imp b{display:block;font:600 19px var(--titulo);margin-bottom:4px}
+.paso-imp b::before{counter-increment:p;content:counter(p) '. '}
+.paso-imp span{font-size:15px;color:var(--tinta2)}
+.sin-img{display:none!important}
 header nav{margin-left:auto;display:flex;gap:6px}
 header nav a{font:500 15px var(--titulo);text-decoration:none;color:var(--tinta);padding:6px 10px;border-radius:10px}
 header nav a:hover{background:var(--lila)}
@@ -170,9 +186,9 @@ footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
 
 <header>
   <div class="envoltura">
-    <a class="marca" href="#arriba" id="arriba">🐝 Colmen<span>IA</span></a>
+    <a class="marca" href="#arriba" id="arriba"><img src="arte/abeja.png" alt="" width="42" height="26" onerror="this.remove()"> <span class="m-colmenia">Colmen<span>IA</span></span><span class="m-x">×</span><span class="m-fonia">Gabinete Fönia</span></a>
     <nav aria-label="Secciones">
-      <a href="#como">Cómo se usa</a><a href="#prueba">Pruébalo</a><a href="#taller">Hazla tuya</a><a href="#consejos">Consejos</a>
+      <a href="#como">Cómo se usa</a><a href="#ejemplos">Ejemplos</a><a href="#taller">Hazla tuya</a><a href="#imprimir-pasos">Imprimir</a><a href="#consejos">Consejos</a>
     </nav>
   </div>
 </header>
@@ -224,6 +240,18 @@ footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
       <button class="btn claro peq" type="button" id="pPausa" aria-label="Pausar">⏸</button>
       <button class="btn peq" type="button" id="pAdelante" aria-label="Paso siguiente">▶</button>
     </div>
+  </div>
+</section>
+
+<section id="ejemplos" class="envoltura">
+  <span class="etiqueta">Ejemplos de uso</span>
+  <h2>Cuatro formas de usarla</h2>
+  <p class="sub">Elige el modelo que mejor le vaya: todos se hacen abajo, en «Hazla tuya».</p>
+  <div class="rejilla">
+    <figure class="figura"><img src="arte/ejemplo-cruzando.png" alt="Tira cruzando el renglón con el dedo en el hueco entre «el» y «gato»" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>👉 Dedo en la punta</b>La tira cruza el renglón y el dedo entra justo donde acaba la palabra. La más usada.</figcaption></figure>
+    <figure class="figura"><img src="arte/ejemplo-debajo.png" alt="Tira debajo del renglón con el dedo hacia arriba entre dos palabras" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>☝️ Dedo arriba</b>La tira va tumbada debajo del renglón y el dedo sube entre palabra y palabra.</figcaption></figure>
+    <figure class="figura"><img src="arte/ejemplo-dos-dedos.png" alt="Tira con un dedo en cada punta y la palabra «sol» escrita entre los dos" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>👈 👉 Dos dedos</b>La palabra se escribe entre los dos dedos: se ve dónde empieza y dónde acaba.</figcaption></figure>
+    <figure class="figura"><img src="arte/ejemplo-familia.png" alt="Un adulto y un niño escribiendo con la tira en la mesa de casa" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>🏠 En casa y en clase</b>Al principio escribe tú una frase delante y que te vea poner el dedo. Luego, su turno.</figcaption></figure>
   </div>
 </section>
 
@@ -296,6 +324,17 @@ footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
       <label class="check"><input type="checkbox" id="cZurdo"> <span>Para zurdos (la mano al revés)</span></label>
       <label class="check"><input type="checkbox" id="cRegla" checked> <span>Con regla en centímetros</span></label>
       <label class="check"><input type="checkbox" id="cMezcla"> <span>Un color distinto en cada tira</span></label>
+      <div class="campo">
+        <label for="firma">Firma pequeña debajo de la tira</label>
+        <select id="firma">
+          <option value="ambas">ColmenIA · Gabinete Fönia</option>
+          <option value="colmenia">ColmenIA</option>
+          <option value="fonia">Gabinete Fönia</option>
+          <option value="propia">Escribir la mía (tu consulta o tu cole)…</option>
+          <option value="no">Sin firma</option>
+        </select>
+        <input type="text" id="firmaPropia" maxlength="40" placeholder="Por ejemplo: Logopedia Sonrisas" style="display:none;margin-top:6px" autocomplete="off">
+      </div>
     </div>
     <div class="vista">
       <div class="papel" id="vista"></div>
@@ -329,26 +368,37 @@ la abeja vuela alto</textarea>
   </div>
 </section>
 
+<section id="imprimir-pasos" class="envoltura">
+  <span class="etiqueta">Imprimir</span>
+  <h2>De la pantalla a la mesa</h2>
+  <div class="pasos-imp">
+    <div class="paso-imp"><img src="arte/paso-imprimir.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>Imprime</b><span>A tamaño real (100 %), mejor en cartulina. Así la regla mide centímetros de verdad. También vale «Guardar como PDF» y llevarlo a la copistería.</span></div>
+    <div class="paso-imp"><img src="arte/paso-recortar.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>Recorta</b><span>Por la línea de puntos, dejando el borde blanco alrededor del dedo.</span></div>
+    <div class="paso-imp"><img src="arte/paso-plastificar.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>Plastifica</b><span>Y vuelve a recortar dejando 2-3 mm de plástico para que no se abra. Sin plastificadora: cinta adhesiva ancha por las dos caras.</span></div>
+    <div class="paso-imp"><img src="arte/paso-usar.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>A escribir</b><span>Una tira para casa y otra para clase. Si se pierde, se imprime otra en un minuto.</span></div>
+  </div>
+  <p class="centro" style="margin-top:16px"><a class="btn oro" href="#taller">✂️ Hacer la mía</a></p>
+</section>
+
 <section id="consejos" class="envoltura">
   <span class="etiqueta">Consejos</span>
   <h2>Para que funcione</h2>
   <div class="rejilla">
     <div class="tarjeta">
-      <h3>✂️ Plastificar</h3>
-      <ol>
-        <li>Imprime a tamaño real en cartulina o papel grueso.</li>
-        <li>Recorta por la línea de puntos, dejando el borde blanco.</li>
-        <li>Plastifica y vuelve a recortar dejando 2-3 mm de plástico alrededor, para que no se abra.</li>
-        <li>¿Sin plastificadora? Cinta adhesiva ancha por las dos caras.</li>
-      </ol>
-    </div>
-    <div class="tarjeta">
       <h3>✋ Al escribir</h3>
       <ul>
-        <li>La tira va debajo del renglón y el dedo sube justo donde acaba la palabra.</li>
+        <li>El dedo de la tira va justo donde acaba la palabra; la siguiente se escribe al otro lado.</li>
         <li>Los diestros la sujetan con la mano izquierda; los zurdos, con la derecha (marca «para zurdos»).</li>
         <li>Al principio, escribe tú una frase delante y que te vea poner el dedo.</li>
         <li>Celebra cada hueco bien hecho, no solo la frase entera.</li>
+      </ul>
+    </div>
+    <div class="tarjeta">
+      <h3>🎯 Para quién</h3>
+      <ul>
+        <li>Niños que empiezan a escribir y juntan las palabras («elgatocome»).</li>
+        <li>Dislexia, disgrafía o dificultades de lenguaje que afectan a la escritura.</li>
+        <li>También en clase, para todo el grupo: cada uno con su nombre.</li>
       </ul>
     </div>
   </div>
@@ -381,7 +431,7 @@ la abeja vuela alto</textarea>
 
 <div id="imprimir" aria-hidden="true"></div>
 
-<script src="dibujo.js?v=2"></script>
-<script src="app.js?v=2"></script>
+<script src="dibujo.js?v=3"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

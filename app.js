@@ -11,11 +11,20 @@
   function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x !== undefined && x !== null) e.textContent = x; return e; }
   var REDUCIDO = false; try { REDUCIDO = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { }
 
+  /* ---------- dentro de Fönia: sin recuento ni Skool, con la marca de Fönia ---------- */
+  var FONIA = /fonia-materiales|fonia-demo/.test(location.hostname) || QS.get('fonia') === '1' || !!window.SEPARADOR_FONIA;
+  if (FONIA) {
+    document.body.className += ' fonia';
+    document.title = 'Separador de palabras · Gabinete Fönia';
+    var mk = document.querySelector('.marca'); if (mk) mk.href = window.SEPARADOR_VOLVER || '/';
+    var nb = $('nombre'); if (nb) { nb.placeholder = 'Nombre del paciente'; nb.previousElementSibling.textContent = 'Nombre del paciente'; }
+  }
+
   /* ---------- recuento anónimo (solo sumas) ---------- */
   var SKOOL = 'https://www.skool.com/logopedia-7339/about';
   var CONTADOR = 'https://abacus.jasoncameron.dev/hit/foniafonia-separador-lanz/';
-  var MIO = false;
-  try { if (QS.get('yo') === '1') localStorage.setItem('separa-no-contar', '1'); if (QS.get('yo') === '0') localStorage.removeItem('separa-no-contar'); MIO = localStorage.getItem('separa-no-contar') === '1'; } catch (e) { }
+  var MIO = FONIA;
+  if (!FONIA) try { if (QS.get('yo') === '1') localStorage.setItem('separa-no-contar', '1'); if (QS.get('yo') === '0') localStorage.removeItem('separa-no-contar'); MIO = localStorage.getItem('separa-no-contar') === '1'; } catch (e) { }
   function hoy() { var d = new Date(); return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2); }
   function suma(k) { if (MIO) return; try { new Image().src = CONTADOR + k + '?t=' + Date.now().toString(36); } catch (e) { } }
   var CANAL = (function () { var c = (QS.get('c') || '').toLowerCase(); return /^(wa|tg|fb|ig|sk|ln)$/.test(c) ? c : ''; })();
@@ -41,10 +50,11 @@
     });
     return a;
   }
-  $('comunidad').appendChild(tarjeta('pagina'));
+  if (!FONIA) $('comunidad').appendChild(tarjeta('pagina'));
   (function () {
     var p = $('pie');
     p.appendChild(el('p', null, 'Una pieza del laboratorio de Gabinete Fönia y ColmenIA. Material de apoyo: no sustituye a la logopeda.'));
+    if (FONIA) return;
     var n = el('p'); n.appendChild(document.createTextNode('Sin registro. Lo que escribes no sale de este aparato. Solo se cuenta, de forma anónima, cuánta gente lo usa. '));
     var a = el('a', null, 'Privacidad'); a.href = 'privacidad.html'; n.appendChild(a); p.appendChild(n);
   })();
@@ -128,12 +138,13 @@
   })();
 
   /* ---------- taller ---------- */
-  var A = { modelo: 'punta', color: 'turquesa', piel: 'clara', fw: 14, L: 260, zurdo: false, regla: true, mezcla: false, frase: 'DEJA ESPACIO', otra: '' };
+  var A = { modelo: 'punta', color: 'turquesa', piel: 'clara', fw: 14, L: 260, zurdo: false, regla: true, mezcla: false, frase: 'DEJA ESPACIO', otra: '', firma: FONIA ? 'fonia' : 'ambas', firmaPropia: '' };
   try { var g = JSON.parse(localStorage.getItem('separa-ajustes') || 'null'); if (g) for (var k in g) if (A.hasOwnProperty(k)) A[k] = g[k]; } catch (e) { }
   function guarda() { try { localStorage.setItem('separa-ajustes', JSON.stringify(A)); } catch (e) { } }
   function nombre() { return String($('nombre').value || '').replace(/[<>]/g, '').trim(); }
   function frase() { return A.frase === '_otra' ? (A.otra || '').trim() : A.frase; }
-  function opciones(o) { return { L: A.L, fw: A.fw, modelo: A.modelo, color: o && o.color || A.color, piel: A.piel, zurdo: A.zurdo, regla: A.regla, frase: frase(), nombre: nombre(), marca: true, i: o && o.i || 0 }; }
+  function opciones(o) { return { L: A.L, fw: A.fw, modelo: A.modelo, color: o && o.color || A.color, piel: A.piel, zurdo: A.zurdo, regla: A.regla, frase: frase(), nombre: nombre(), marca: marca(), i: o && o.i || 0 }; }
+  function marca() { return { ambas: 'ColmenIA · Gabinete Fönia', colmenia: 'ColmenIA', fonia: 'Gabinete Fönia', no: '' }[A.firma] !== undefined ? { ambas: 'ColmenIA · Gabinete Fönia', colmenia: 'ColmenIA', fonia: 'Gabinete Fönia', no: '' }[A.firma] : String(A.firmaPropia || '').replace(/[<>]/g, '').trim(); }
 
   function grupo(id, clave, num) {
     var bs = $(id).querySelectorAll('button');
@@ -165,6 +176,11 @@
   sel.onchange = function () { A.frase = sel.value; verOtra(); if (A.frase === '_otra') $('fraseOtra').focus(); cambia(); };
   $('fraseOtra').oninput = function () { A.otra = this.value; cambia(); };
   $('nombre').oninput = function () { cambia(); };
+  $('firma').value = A.firma; $('firmaPropia').value = A.firmaPropia || '';
+  function verFirma() { $('firmaPropia').style.display = A.firma === 'propia' ? 'block' : 'none'; }
+  $('firma').onchange = function () { A.firma = this.value; verFirma(); if (A.firma === 'propia') $('firmaPropia').focus(); cambia(); };
+  $('firmaPropia').oninput = function () { A.firmaPropia = this.value; cambia(); };
+  verFirma();
   verOtra();
 
   function reparto(t) {
@@ -231,12 +247,12 @@
 
   /* ---------- después de imprimir: «¿ya la tienes?» (una vez por visita, si no ha ido ya a Skool) ---------- */
   var pendiente = false, gracias = $('vGracias');
-  $('gCta').appendChild(tarjeta('tras_imprimir'));
+  if (!FONIA) $('gCta').appendChild(tarjeta('tras_imprimir'));
   function cierra() { gracias.className = 'velo'; }
   $('gX').onclick = cierra; gracias.addEventListener('click', function (e) { if (e.target === gracias) cierra(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cierra(); });
   window.addEventListener('afterprint', function () {
-    if (!pendiente) return; pendiente = false;
+    if (!pendiente) return; pendiente = false; if (FONIA) return;
     try { if (localStorage.getItem('separa-fue-a-skool') || sessionStorage.getItem('separa-gracias')) return; sessionStorage.setItem('separa-gracias', '1'); } catch (e) { }
     setTimeout(function () { gracias.className = 'velo on'; suma('separa_gracias_vista'); $('gX').focus(); }, 400);
   });

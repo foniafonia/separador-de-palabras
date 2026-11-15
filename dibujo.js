@@ -171,7 +171,7 @@
     }
     svg += flechasSvg;
     svg += '<g clip-path="url(#' + id + ')">' + manos.map(function (m) { return manoImg(m.ax, m.ay, k, m.g, m.rot, href); }).join('') + '</g>';
-    if (o.marca) svg += '<text x="' + f(x0 + Lc - 9) + '" y="' + f(y0 + H + 2.3) + '" font-size="1.9" text-anchor="end" font-family="' + LETRA + '" fill="#8F8499">ColmenIA · Gabinete Fönia</text>';
+    if (o.marca) svg += '<text x="' + f(x0 + Lc - 9) + '" y="' + f(y0 + H + 2.3) + '" font-size="2.1" text-anchor="end" font-family="' + LETRA + '" fill="#8F8499">' + esc(o.marca === true ? 'ColmenIA · Gabinete Fönia' : o.marca) + '</text>';
     return { svg: svg + '</svg>', w: W, h: HT };
   }
 
