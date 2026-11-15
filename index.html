@@ -7,7 +7,7 @@
 <title>Separador de palabras · ColmenIA</title>
 <meta name="description" content="Tiras con un dedito para que el niño deje espacio entre palabra y palabra. Con su nombre, para imprimir y plastificar. Gratis. Gabinete Fönia y ColmenIA.">
 <meta property="og:title" content="Separador de palabras · un dedo entre palabra y palabra">
-<meta property="og:description" content="Haz la tira con el nombre del niño, imprímela y plastifícala. Con hoja de práctica y diploma. Gratis y sin registro.">
+<meta property="og:description" content="Pon el nombre del niño, imprime y plastifica. Gratis y sin registro.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://foniafonia.github.io/separador-de-palabras/">
 <meta property="og:image" content="https://foniafonia.github.io/separador-de-palabras/img/portada-og.jpg">
@@ -26,148 +26,69 @@ window.addEventListener('error', function (e) {
 });
 </script>
 <style>
-:root{
-  --tinta:#3A2449; --tinta2:#6B5A78; --fondo:#FFF9EC; --blanco:#FFFFFF; --lila:#EDE3FC; --lila2:#B98AE6; --oro:#F6C230; --oro2:#E0A400; --crema:#FFF6DE; --linea:#E7DCEB;
-  --titulo:'Jost',system-ui,sans-serif; --letra:'Atkinson Hyperlegible',system-ui,-apple-system,sans-serif;
-}
+:root{--tinta:#3A2449;--tinta2:#6B5A78;--fondo:#FFF9EC;--lila:#EDE3FC;--lila2:#B98AE6;--oro:#F6C230;--oro2:#E0A400;--linea:#E7DCEB;
+  --titulo:'Jost',system-ui,sans-serif;--letra:'Atkinson Hyperlegible',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--fondo);color:var(--tinta);font:18px/1.5 var(--letra);-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:18px/1.45 var(--letra);-webkit-text-size-adjust:100%}
 a{color:#6A3FB0}
-h1,h2,h3{font-family:var(--titulo);font-weight:600;line-height:1.15;margin:0}
-.envoltura{max-width:1060px;margin:0 auto;padding:0 16px}
-section{padding:34px 0}
-.etiqueta{display:inline-block;background:var(--lila);color:var(--tinta);font:600 14px var(--titulo);letter-spacing:.04em;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:10px}
-h2{font-size:clamp(26px,4.6vw,36px);margin-bottom:8px}
-.sub{color:var(--tinta2);margin:0 0 18px;max-width:640px}
-.btn{display:inline-flex;align-items:center;gap:8px;font:600 18px var(--titulo);padding:13px 20px;border-radius:16px;border:0;background:var(--tinta);color:#fff;cursor:pointer;text-decoration:none;box-shadow:0 3px 0 rgba(58,36,73,.25)}
-.btn:active{transform:translateY(2px);box-shadow:none}
-.btn.oro{background:var(--oro);color:var(--tinta)}
-.btn.claro{background:#fff;color:var(--tinta);border:2px solid var(--linea);box-shadow:none}
-.btn.peq{font-size:16px;padding:9px 14px;border-radius:12px}
-.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--lila2);outline-offset:2px}
-
-/* cabecera */
-header{padding:12px 0;border-bottom:1px solid var(--linea);background:var(--fondo);position:sticky;top:0;z-index:5}
-header .envoltura{display:flex;align-items:center;gap:10px}
-.marca{font:600 20px var(--titulo);display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--tinta)}
+h1{font:600 clamp(32px,6vw,48px)/1.1 var(--titulo);margin:0 0 6px}
+.env{max-width:900px;margin:0 auto;padding:0 16px}
+header{padding:10px 0}
+.marca{font:600 19px var(--titulo);display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--tinta)}
 .marca span span{color:var(--oro2)}
-.marca .m-x{color:var(--tinta2);font-weight:500;font-size:16px}
-.marca .m-fonia{font-size:17px;font-weight:500}
-@media (max-width:420px){.marca .m-x,.marca .m-fonia{display:none}}
+.marca .m-x{color:var(--tinta2);font-weight:500;font-size:15px}
+.marca .m-fonia{font-size:16px;font-weight:500}
 body.fonia .m-colmenia,body.fonia .m-x{display:none}
-body.fonia .marca .m-fonia{display:inline;font-size:20px;font-weight:600}
-.figura{margin:0;background:#fff;border:1px solid var(--linea);border-radius:20px;overflow:hidden}
-.figura img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:var(--crema)}
-.figura figcaption{padding:12px 14px;font-size:16px}
-.figura figcaption b{display:block;font:600 18px var(--titulo);margin-bottom:2px}
-.pasos-imp{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;counter-reset:p}
-.paso-imp{background:#fff;border:1px solid var(--linea);border-radius:20px;padding:14px;text-align:center}
-.paso-imp img{width:100%;max-width:200px;height:auto;aspect-ratio:1;object-fit:contain;display:block;margin:0 auto 8px;background:var(--crema);border-radius:16px}
-.paso-imp b{display:block;font:600 19px var(--titulo);margin-bottom:4px}
-.paso-imp b::before{counter-increment:p;content:counter(p) '. '}
-.paso-imp span{font-size:15px;color:var(--tinta2)}
-.sin-img{display:none!important}
-header nav{margin-left:auto;display:flex;gap:6px}
-header nav a{font:500 15px var(--titulo);text-decoration:none;color:var(--tinta);padding:6px 10px;border-radius:10px}
-header nav a:hover{background:var(--lila)}
-@media (max-width:640px){header nav{display:none}}
+body.fonia .marca .m-fonia{font-size:19px;font-weight:600}
+.lema{margin:0 0 16px;font-size:19px;color:var(--tinta2)}
 
-/* portada */
-.portada{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-top:30px}
-.portada h1{font-size:clamp(36px,6.5vw,60px);margin:6px 0 12px}
-.portada h1 em{font-style:normal;background:linear-gradient(transparent 60%,#FFE08A 60%)}
-.portada p.lema{font-size:20px;margin:0 0 20px;max-width:520px}
-.portada .acciones{display:flex;flex-wrap:wrap;gap:10px}
-.portada .fotos{position:relative;min-height:300px}
-.portada .fotos img{position:absolute;width:62%;border-radius:14px;box-shadow:0 10px 30px rgba(58,36,73,.18);background:#fff}
-.portada .fotos img:first-child{left:0;top:0;transform:rotate(-4deg)}
-.portada .fotos img:last-child{right:0;top:40px;transform:rotate(4deg)}
-.puntos{display:flex;flex-wrap:wrap;gap:8px 16px;margin:18px 0 0;padding:0;list-style:none;color:var(--tinta2);font-size:16px}
-.puntos li::before{content:'✓ ';color:#2FA866;font-weight:700}
-@media (max-width:760px){.portada{grid-template-columns:1fr}.portada .fotos{min-height:0;height:72vw;max-height:420px}}
+/* cómo se usa: un dibujo y tres pasos */
+.como{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:center;background:#fff;border:1px solid var(--linea);border-radius:20px;padding:12px;margin-bottom:16px}
+.como img{width:100%;height:auto;border-radius:14px;display:block}
+.como ol{margin:0;padding-left:0;list-style:none;counter-reset:p;font:500 20px/1.35 var(--titulo)}
+.como li{counter-increment:p;display:flex;gap:10px;align-items:center;margin:6px 0}
+.como li::before{content:counter(p);flex:none;width:32px;height:32px;border-radius:50%;background:var(--oro);display:grid;place-items:center;font-weight:700}
+@media (max-width:620px){.como{grid-template-columns:110px 1fr;gap:10px;padding:10px}.como ol{font-size:17px}.como li::before{width:26px;height:26px}}
 
-/* cómo se usa */
-.caja{background:#fff;border:1px solid var(--linea);border-radius:22px;padding:18px}
-#escena{width:100%;height:auto;display:block;background:#fff;border-radius:14px}
-#escena .pal{font-family:var(--letra);font-size:30px;fill:var(--tinta);opacity:0;transition:opacity .5s}
-#escena .pal.on{opacity:1}
-#escena .hueco{fill:#FFE08A;opacity:0;transition:opacity .5s}
-#escena .hueco.on{opacity:.75}
-#tiraMini{transition:transform .9s cubic-bezier(.3,.7,.3,1)}
-.pasos{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
-#pasoTxt{flex:1 1 260px;margin:0;font:600 20px var(--titulo);min-height:2.4em;display:flex;align-items:center}
-.bolitas{display:flex;gap:6px}
-.bolitas i{width:10px;height:10px;border-radius:50%;background:var(--linea)}
-.bolitas i.on{background:var(--tinta)}
-
-/* pruébalo */
-.frase{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;min-height:110px;padding:16px 4px;background:repeating-linear-gradient(transparent 0 76px,#C9D6F0 76px 78px,transparent 78px 110px);border-radius:14px}
-.letra{font:400 clamp(34px,7vw,50px)/1 var(--letra);padding:0 1px;color:var(--tinta);user-select:none;-webkit-user-select:none}
-.hu{width:20px;align-self:stretch;border:0;background:transparent;cursor:pointer;position:relative;padding:0;margin:0 -3px;transition:width .35s}
-.hu::after{content:'';position:absolute;left:50%;bottom:6px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#D8CCE4}
-.hu:hover::after{background:var(--lila2)}
-.hu.ok{width:46px;margin:0 2px;cursor:default}
-.hu.ok::after{display:none}
-.hu.ok{background:url(arte/mano-clara-1.png) center bottom/46px auto no-repeat}
-.hu.mal{animation:temblor .4s}
-@keyframes temblor{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.hu.mal::after{background:#E0473C}
-#jmsg{text-align:center;font:600 20px var(--titulo);min-height:1.6em;margin:12px 0}
-.centro{text-align:center}
-
-/* hazla tuya */
-.taller{display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start}
-@media (max-width:860px){.taller{grid-template-columns:1fr}}
-.panel{display:flex;flex-direction:column;gap:16px}
-.campo>label,.campo>.tit{display:block;font:600 16px var(--titulo);margin-bottom:6px}
-.campo small{display:block;color:var(--tinta2);font-size:14px;margin-top:4px}
-input[type=text],select,textarea{width:100%;font:inherit;font-size:17px;padding:10px 12px;border-radius:12px;border:2px solid var(--linea);background:#fff;color:var(--tinta)}
-textarea{min-height:96px;resize:vertical}
-.opciones{display:flex;flex-wrap:wrap;gap:6px}
-.opciones button{font:500 15px var(--titulo);padding:8px 12px;border-radius:12px;border:2px solid var(--linea);background:#fff;color:var(--tinta);cursor:pointer}
-.opciones button[aria-pressed=true]{border-color:var(--tinta);background:var(--tinta);color:#fff}
+/* la tira */
+.taller{background:#fff;border:1px solid var(--linea);border-radius:20px;padding:16px}
+.vista svg{width:100%;height:auto;display:block}
+.vista{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.fila{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:0 0 12px}
+.fila>label,.fila>.tit{font:600 16px var(--titulo);min-width:70px}
+input[type=text]{flex:1 1 200px;font:inherit;font-size:18px;padding:10px 12px;border-radius:12px;border:2px solid var(--linea);background:#fff;color:var(--tinta)}
+.modelos{display:flex;gap:8px;flex:1 1 260px}
+.modelos button{flex:1;font:600 17px var(--titulo);padding:10px 8px;border-radius:14px;border:2px solid var(--linea);background:#fff;color:var(--tinta);cursor:pointer}
+.modelos button[aria-pressed=true]{border-color:var(--tinta);background:var(--tinta);color:#fff}
 .muestras{display:flex;flex-wrap:wrap;gap:8px}
-.muestras button{width:40px;height:40px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--linea);cursor:pointer;padding:0}
+.muestras button{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--linea);cursor:pointer;padding:0;font-size:18px}
 .muestras button[aria-pressed=true]{box-shadow:0 0 0 3px var(--tinta)}
-.muestras button.tinta{background:#fff;font-size:12px;font-weight:700;color:var(--tinta)}
-.check{display:flex;gap:10px;align-items:flex-start;font-size:16px;cursor:pointer}
-.check input{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#3A2449}
-.vista{position:sticky;top:76px}
-.vista .papel{background:#fff;border:1px solid var(--linea);border-radius:18px;padding:14px;overflow:hidden}
-.vista .papel svg{width:100%;height:auto;display:block}
-.vista .medidas{font-size:14px;color:var(--tinta2);margin:8px 2px 0}
-.imprimir-botones{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.aviso{font-size:14px;color:var(--tinta2);margin:8px 2px 0}
-
-/* consejos */
-.rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
-.tarjeta{background:#fff;border:1px solid var(--linea);border-radius:20px;padding:18px}
-.tarjeta h3{font-size:21px;margin-bottom:8px}
-.tarjeta ol,.tarjeta ul{margin:0;padding-left:22px}
-.tarjeta li{margin-bottom:6px}
-.escalera{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:12px}
-.escalon{background:var(--crema);border-radius:16px;padding:12px 14px}
-.escalon b{display:block;font:600 17px var(--titulo)}
-.escalon span{font-size:15px;color:var(--tinta2)}
+.muestras .mix{background:conic-gradient(#22A39C,#F07167,#F7931E,#5DBB63,#B98AE6,#4AA8E8,#22A39C)}
+.muestras .bn{background:#fff;font:700 11px var(--titulo);color:var(--tinta)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 20px var(--titulo);padding:14px 22px;border-radius:16px;border:0;background:var(--oro);color:var(--tinta);cursor:pointer;box-shadow:0 3px 0 rgba(58,36,73,.25);width:100%}
+.btn:active{transform:translateY(2px);box-shadow:none}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--lila2);outline-offset:2px}
+.aviso{font-size:15px;color:var(--tinta2);margin:10px 2px 0;text-align:center}
 
 /* comunidad */
-.cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;background:var(--tinta);color:#fff;border-radius:24px;padding:22px;text-decoration:none}
-.cta .abeja{font-size:44px}
-.cta .txt{flex:1 1 280px}
-.cta b{display:block;font:600 24px var(--titulo)}
-.cta .txt span{display:block;color:#E3D6F2;font-size:16px;margin-top:4px}
-.cta .ir{background:var(--oro);color:var(--tinta);font:600 18px var(--titulo);padding:12px 18px;border-radius:14px;white-space:nowrap}
+#comunidad{margin-top:18px}
+.cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:var(--tinta);color:#fff;border-radius:20px;padding:16px 18px;text-decoration:none}
+.cta .abeja{font-size:36px}
+.cta .txt{flex:1 1 240px}
+.cta b{display:block;font:600 21px var(--titulo)}
+.cta .txt span{display:block;color:#E3D6F2;font-size:15px;margin-top:2px}
+.cta .ir{background:var(--oro);color:var(--tinta);font:600 17px var(--titulo);padding:10px 16px;border-radius:12px;white-space:nowrap}
 .cta .vuelta{flex-basis:100%;font-size:13px;color:#CDBFE0}
-footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
+footer{padding:20px 0 40px;color:var(--tinta2);font-size:14px;text-align:center}
+footer p{margin:4px 0}
 
-/* «¿te ha servido?» */
+/* «¿ya la tienes?» */
 .velo{position:fixed;inset:0;background:rgba(58,36,73,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .velo.on{display:flex}
-.velo .dentro{background:var(--fondo);border-radius:24px;padding:20px;max-width:520px;width:100%;position:relative}
-.velo .x{position:absolute;right:10px;top:8px;border:0;background:transparent;font-size:26px;cursor:pointer;color:var(--tinta);width:44px;height:44px}
-.velo h3{font-size:24px;margin:4px 40px 12px 0}
+.velo .dentro{background:var(--fondo);border-radius:22px;padding:20px;max-width:500px;width:100%;position:relative}
+.velo .x{position:absolute;right:8px;top:6px;border:0;background:transparent;font-size:26px;cursor:pointer;color:var(--tinta);width:44px;height:44px}
+.velo h3{font:600 23px var(--titulo);margin:4px 40px 10px 0}
 
 /* impresión */
 #imprimir{display:none}
@@ -184,241 +105,48 @@ footer{padding:26px 0 50px;color:var(--tinta2);font-size:15px;text-align:center}
 </head>
 <body>
 
-<header>
-  <div class="envoltura">
-    <a class="marca" href="#arriba" id="arriba"><img src="arte/abeja.png" alt="" width="42" height="26" onerror="this.remove()"> <span class="m-colmenia">Colmen<span>IA</span></span><span class="m-x">×</span><span class="m-fonia">Gabinete Fönia</span></a>
-    <nav aria-label="Secciones">
-      <a href="#como">Cómo se usa</a><a href="#ejemplos">Ejemplos</a><a href="#taller">Hazla tuya</a><a href="#imprimir-pasos">Imprimir</a><a href="#consejos">Consejos</a>
-    </nav>
-  </div>
-</header>
+<header><div class="env">
+  <a class="marca" href="./" id="marca"><img src="arte/abeja.png" alt="" width="40" height="25" onerror="this.remove()"> <span class="m-colmenia">Colmen<span>IA</span></span><span class="m-x">×</span><span class="m-fonia">Gabinete Fönia</span></a>
+</div></header>
 
-<main>
-<section class="envoltura portada">
-  <div>
-    <span class="etiqueta">Para imprimir y plastificar</span>
-    <h1>Separador de <em>palabras</em></h1>
-    <p class="lema">Una tira con un dedito para que el niño deje <b>espacio entre palabra y palabra</b>. Hazla con su nombre, imprímela y plastifícala.</p>
-    <div class="acciones">
-      <a class="btn oro" href="#taller">✂️ Hacer la mía</a>
-      <a class="btn claro" href="#como">▶ Ver cómo se usa</a>
-    </div>
-    <ul class="puntos"><li>Gratis y sin registro</li><li>Con su nombre</li><li>Para diestros y zurdos</li><li>Hoja de práctica y diploma</li></ul>
-  </div>
-  <div class="fotos" aria-hidden="true">
-    <img src="img/modelo-un-dedo.jpg" alt="" width="778" height="1100">
-    <img src="img/modelo-dos-dedos.jpg" alt="" width="778" height="1100">
-  </div>
-</section>
+<main class="env">
+  <h1>Separador de palabras</h1>
+  <p class="lema">El dedo de la tira marca el hueco entre palabra y palabra.</p>
 
-<section id="como" class="envoltura">
-  <span class="etiqueta">Paso a paso</span>
-  <h2>Cómo se usa</h2>
-  <p class="sub">El dedo de la tira ocupa justo el hueco que tiene que quedar entre dos palabras.</p>
-  <div class="caja">
-    <svg id="escena" viewBox="0 0 340 150" overflow="hidden" role="img" aria-label="Animación: se escribe una palabra, se pone el dedo de la tira detrás y se escribe la siguiente">
-      <rect x="0" y="0" width="340" height="150" fill="#FFFFFF"/>
-      <line x1="10" x2="330" y1="46" y2="46" stroke="#DCE4F4" stroke-width="1"/>
-      <line x1="10" x2="330" y1="86" y2="86" stroke="#B8C6E6" stroke-width="1.4"/>
-      <rect class="hueco" id="h1" x="0" y="44" width="14" height="44" rx="4"/>
-      <rect class="hueco" id="h2" x="0" y="44" width="14" height="44" rx="4"/>
-      <text class="pal" id="p1" x="20" y="84">El</text>
-      <text class="pal" id="p2" x="0" y="84">gato</text>
-      <text class="pal" id="p3" x="0" y="84">come.</text>
-      <defs><clipPath id="corteMini"><rect x="-85" y="92" width="170" height="52" rx="8"/><rect x="-85" y="0" width="170" height="96"/></clipPath></defs>
-      <g id="tiraMini" style="transform:translate(-120px,0)">
-        <rect x="-85" y="92" width="170" height="52" rx="8" fill="#22A39C" stroke="#3A2449" stroke-width="1.5"/>
-        <text x="-52" y="122" font-family="Jost, sans-serif" font-weight="600" font-size="11" fill="#FFF6DE" text-anchor="middle">DEJA</text>
-        <text x="58" y="122" font-family="Jost, sans-serif" font-weight="600" font-size="11" fill="#FFF6DE" text-anchor="middle">ESPACIO</text>
-        <g clip-path="url(#corteMini)"><image href="arte/mano-clara-1.png" x="-30.68" y="62.15" width="61.76" height="102.94" preserveAspectRatio="none"/></g>
-      </g>
-    </svg>
-    <div class="pasos">
-      <button class="btn claro peq" type="button" id="pAtras" aria-label="Paso anterior">◀</button>
-      <p id="pasoTxt" aria-live="polite">Así se usa la tira.</p>
-      <div class="bolitas" id="bolitas" aria-hidden="true"></div>
-      <button class="btn claro peq" type="button" id="pPausa" aria-label="Pausar">⏸</button>
-      <button class="btn peq" type="button" id="pAdelante" aria-label="Paso siguiente">▶</button>
-    </div>
+  <div class="como">
+    <img src="arte/ejemplo-cruzando.png" alt="La tira sobre el cuaderno: el dedo ocupa el hueco entre «el» y «gato»" width="1200" height="800">
+    <ol>
+      <li>Escribe una palabra.</li>
+      <li>Pon el dedo justo al final.</li>
+      <li>Escribe la siguiente al otro lado.</li>
+    </ol>
   </div>
-</section>
 
-<section id="ejemplos" class="envoltura">
-  <span class="etiqueta">Ejemplos de uso</span>
-  <h2>Cuatro formas de usarla</h2>
-  <p class="sub">Elige el modelo que mejor le vaya: todos se hacen abajo, en «Hazla tuya».</p>
-  <div class="rejilla">
-    <figure class="figura"><img src="arte/ejemplo-cruzando.png" alt="Tira cruzando el renglón con el dedo en el hueco entre «el» y «gato»" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>👉 Dedo en la punta</b>La tira cruza el renglón y el dedo entra justo donde acaba la palabra. La más usada.</figcaption></figure>
-    <figure class="figura"><img src="arte/ejemplo-debajo.png" alt="Tira debajo del renglón con el dedo hacia arriba entre dos palabras" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>☝️ Dedo arriba</b>La tira va tumbada debajo del renglón y el dedo sube entre palabra y palabra.</figcaption></figure>
-    <figure class="figura"><img src="arte/ejemplo-dos-dedos.png" alt="Tira con un dedo en cada punta y la palabra «sol» escrita entre los dos" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>👈 👉 Dos dedos</b>La palabra se escribe entre los dos dedos: se ve dónde empieza y dónde acaba.</figcaption></figure>
-    <figure class="figura"><img src="arte/ejemplo-familia.png" alt="Un adulto y un niño escribiendo con la tira en la mesa de casa" loading="lazy" onerror="this.className='sin-img'"><figcaption><b>🏠 En casa y en clase</b>Al principio escribe tú una frase delante y que te vea poner el dedo. Luego, su turno.</figcaption></figure>
-  </div>
-</section>
-
-<section id="prueba" class="envoltura">
-  <span class="etiqueta">Pruébalo en la pantalla</span>
-  <h2>¿Dónde va el hueco?</h2>
-  <p class="sub">Las palabras se han quedado pegadas. Toca entre las letras donde acaba cada palabra y pon el dedo.</p>
-  <div class="caja">
-    <div class="frase" id="frase" aria-live="polite"></div>
-    <p id="jmsg" aria-live="polite"></p>
-    <p class="centro"><button class="btn peq claro" type="button" id="jOir">🔊 Oír la frase</button> <button class="btn peq" type="button" id="jSig">Otra frase →</button></p>
-  </div>
-</section>
-
-<section id="taller" class="envoltura">
-  <span class="etiqueta">Hazla tuya</span>
-  <h2>Diseña la tira y la imprimes</h2>
-  <p class="sub">Todo se hace en este aparato: el nombre no se envía a ningún sitio.</p>
   <div class="taller">
-    <div class="panel">
-      <div class="campo">
-        <label for="nombre">Nombre del niño o niña</label>
-        <input type="text" id="nombre" maxlength="24" placeholder="Por ejemplo: Lucía" autocomplete="off" spellcheck="false">
-        <small>Opcional. Sale en la tira y en el diploma.</small>
-      </div>
-      <div class="campo">
-        <span class="tit">Modelo</span>
-        <div class="opciones" id="oModelo">
-          <button type="button" data-v="punta">👉 Dedo en la punta</button>
-          <button type="button" data-v="dospuntas">👈 👉 Dedo en las dos puntas</button>
-          <button type="button" data-v="medio">☝️ Dedo arriba, en medio</button>
-          <button type="button" data-v="puntas">☝️ ☝️ Dedos arriba, en los extremos</button>
-        </div>
-        <small id="modeloAyuda"></small>
-      </div>
-      <div class="campo">
-        <label for="frasePre">Frase de la tira</label>
-        <select id="frasePre">
-          <option>DEJA ESPACIO</option><option>AQUÍ VA EL HUECO</option><option>SEPARA</option><option>ESPACIO</option>
-          <option>PALABRA + ESPACIO + PALABRA</option><option>UN DEDO ENTRE PALABRAS</option><option>ENTRE DOS PALABRAS</option>
-          <option value="_otra">Escribir otra…</option>
-        </select>
-        <input type="text" id="fraseOtra" maxlength="30" placeholder="Escribe la frase" style="display:none;margin-top:6px" autocomplete="off">
-      </div>
-      <div class="campo">
-        <span class="tit">Color</span>
-        <div class="muestras" id="oColor"></div>
-      </div>
-      <div class="campo">
-        <span class="tit">Piel de la mano</span>
-        <div class="muestras" id="oPiel"></div>
-      </div>
-      <div class="campo">
-        <span class="tit">Ancho del dedo (= el hueco)</span>
-        <div class="opciones" id="oDedo">
-          <button type="button" data-v="18">Grande · 1,8 cm</button>
-          <button type="button" data-v="14">Normal · 1,4 cm</button>
-          <button type="button" data-v="10">Pequeño · 1 cm</button>
-        </div>
-        <small>Grande para letra grande y primeros pasos; pequeño para letra de cuaderno.</small>
-      </div>
-      <div class="campo">
-        <span class="tit">Largo de la tira</span>
-        <div class="opciones" id="oLargo">
-          <button type="button" data-v="260">Larga · 26 cm</button>
-          <button type="button" data-v="180">Media · 18 cm</button>
-          <button type="button" data-v="130">Corta · 13 cm</button>
-        </div>
-      </div>
-      <label class="check"><input type="checkbox" id="cZurdo"> <span>Para zurdos (la mano al revés)</span></label>
-      <label class="check"><input type="checkbox" id="cRegla" checked> <span>Con regla en centímetros</span></label>
-      <label class="check"><input type="checkbox" id="cMezcla"> <span>Un color distinto en cada tira</span></label>
-      <div class="campo">
-        <label for="firma">Firma pequeña debajo de la tira</label>
-        <select id="firma">
-          <option value="ambas">ColmenIA · Gabinete Fönia</option>
-          <option value="colmenia">ColmenIA</option>
-          <option value="fonia">Gabinete Fönia</option>
-          <option value="propia">Escribir la mía (tu consulta o tu cole)…</option>
-          <option value="no">Sin firma</option>
-        </select>
-        <input type="text" id="firmaPropia" maxlength="40" placeholder="Por ejemplo: Logopedia Sonrisas" style="display:none;margin-top:6px" autocomplete="off">
+    <div class="vista" id="vista" aria-label="Así saldrán las tiras"></div>
+    <div class="fila">
+      <label for="nombre" id="lNombre">Nombre</label>
+      <input type="text" id="nombre" maxlength="20" placeholder="Por ejemplo: Lucía" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="fila">
+      <span class="tit">Dedos</span>
+      <div class="modelos" id="oModelo">
+        <button type="button" data-v="medio">☝️ Un dedo</button>
+        <button type="button" data-v="puntas">☝️☝️ Dos dedos</button>
       </div>
     </div>
-    <div class="vista">
-      <div class="papel" id="vista"></div>
-      <p class="medidas" id="medidas"></p>
-      <div class="imprimir-botones">
-        <button class="btn oro" type="button" id="bTiras">🖨️ Imprimir las tiras</button>
-        <label class="check" style="align-self:center"><input type="checkbox" id="cDos"> <span>2 hojas</span></label>
-      </div>
-      <p class="aviso">Imprime a <b>tamaño real (100 %)</b>, mejor en cartulina. Si no se abre la ventana de imprimir, abre este enlace en Chrome o Safari (no dentro de WhatsApp). También puedes elegir «Guardar como PDF».</p>
+    <div class="fila">
+      <span class="tit">Color</span>
+      <div class="muestras" id="oColor"></div>
     </div>
+    <button class="btn" type="button" id="bTiras">🖨️ Imprimir</button>
+    <p class="aviso">Salen 4 tiras en un folio. Imprime al <b>100 %</b>, recorta por los puntos y plastifica.<br>Si no se abre, abre el enlace en Chrome o Safari (no dentro de WhatsApp).</p>
   </div>
-</section>
 
-<section id="mas" class="envoltura">
-  <span class="etiqueta">Para acompañar</span>
-  <h2>Hoja de práctica y diploma</h2>
-  <div class="rejilla">
-    <div class="tarjeta">
-      <h3>✏️ Hoja de práctica</h3>
-      <p style="margin-top:0">Cada frase sale con deditos entre las palabras y dos renglones para copiarla dejando el hueco. Una frase por línea.</p>
-      <textarea id="frasesHoja" aria-label="Frases de la hoja de práctica">el sol sale
-mi gato come pan
-la abeja vuela alto</textarea>
-      <p style="margin:10px 0 0"><button class="btn peq" type="button" id="bHoja">🖨️ Imprimir la hoja</button></p>
-    </div>
-    <div class="tarjeta">
-      <h3>🏅 Diploma</h3>
-      <p style="margin-top:0">Para cuando ya deja el hueco solo. Sale con su nombre, con el color y la piel que hayas elegido arriba.</p>
-      <p><button class="btn peq" type="button" id="bDiploma">🖨️ Imprimir el diploma</button></p>
-    </div>
-  </div>
-</section>
-
-<section id="imprimir-pasos" class="envoltura">
-  <span class="etiqueta">Imprimir</span>
-  <h2>De la pantalla a la mesa</h2>
-  <div class="pasos-imp">
-    <div class="paso-imp"><img src="arte/paso-imprimir.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>Imprime</b><span>A tamaño real (100 %), mejor en cartulina. Así la regla mide centímetros de verdad. También vale «Guardar como PDF» y llevarlo a la copistería.</span></div>
-    <div class="paso-imp"><img src="arte/paso-recortar.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>Recorta</b><span>Por la línea de puntos, dejando el borde blanco alrededor del dedo.</span></div>
-    <div class="paso-imp"><img src="arte/paso-plastificar.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>Plastifica</b><span>Y vuelve a recortar dejando 2-3 mm de plástico para que no se abra. Sin plastificadora: cinta adhesiva ancha por las dos caras.</span></div>
-    <div class="paso-imp"><img src="arte/paso-usar.png" alt="" loading="lazy" onerror="this.className='sin-img'"><b>A escribir</b><span>Una tira para casa y otra para clase. Si se pierde, se imprime otra en un minuto.</span></div>
-  </div>
-  <p class="centro" style="margin-top:16px"><a class="btn oro" href="#taller">✂️ Hacer la mía</a></p>
-</section>
-
-<section id="consejos" class="envoltura">
-  <span class="etiqueta">Consejos</span>
-  <h2>Para que funcione</h2>
-  <div class="rejilla">
-    <div class="tarjeta">
-      <h3>✋ Al escribir</h3>
-      <ul>
-        <li>El dedo de la tira va justo donde acaba la palabra; la siguiente se escribe al otro lado.</li>
-        <li>Los diestros la sujetan con la mano izquierda; los zurdos, con la derecha (marca «para zurdos»).</li>
-        <li>Al principio, escribe tú una frase delante y que te vea poner el dedo.</li>
-        <li>Celebra cada hueco bien hecho, no solo la frase entera.</li>
-      </ul>
-    </div>
-    <div class="tarjeta">
-      <h3>🎯 Para quién</h3>
-      <ul>
-        <li>Niños que empiezan a escribir y juntan las palabras («elgatocome»).</li>
-        <li>Dislexia, disgrafía o dificultades de lenguaje que afectan a la escritura.</li>
-        <li>También en clase, para todo el grupo: cada uno con su nombre.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="tarjeta" style="margin-top:14px">
-    <h3>🪜 Quitar la ayuda poco a poco</h3>
-    <p style="margin:0">La meta es que un día no la necesite. Cuando un escalón le salga solo, se pasa al siguiente.</p>
-    <div class="escalera">
-      <div class="escalon"><b>1. Tira grande</b><span>Dedo de 1,8 cm, con regla.</span></div>
-      <div class="escalon"><b>2. Tira normal</b><span>Dedo de 1,4 cm.</span></div>
-      <div class="escalon"><b>3. Tira pequeña</b><span>Dedo de 1 cm, sin regla.</span></div>
-      <div class="escalon"><b>4. Su propio dedo</b><span>Pone el índice de la otra mano.</span></div>
-      <div class="escalon"><b>5. Sin nada</b><span>Mira el hueco «a ojo». ¡Diploma!</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="envoltura" id="comunidad"></section>
+  <section id="comunidad"></section>
 </main>
 
-<footer class="envoltura" id="pie"></footer>
+<footer class="env" id="pie"></footer>
 
 <div class="velo" id="vGracias" role="dialog" aria-modal="true" aria-labelledby="gTit">
   <div class="dentro">
@@ -431,7 +159,7 @@ la abeja vuela alto</textarea>
 
 <div id="imprimir" aria-hidden="true"></div>
 
-<script src="dibujo.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="dibujo.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
