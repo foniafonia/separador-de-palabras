@@ -69,6 +69,8 @@ input[type=text]{flex:1 1 200px;font:inherit;font-size:18px;padding:10px 12px;bo
 .muestras .bn{background:#fff;font:700 11px var(--titulo);color:var(--tinta)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 20px var(--titulo);padding:14px 22px;border-radius:16px;border:0;background:var(--oro);color:var(--tinta);cursor:pointer;box-shadow:0 3px 0 rgba(58,36,73,.25);width:100%}
 .btn:active{transform:translateY(2px);box-shadow:none}
+.btn.pdf{margin-top:10px;background:#fff;border:2px solid var(--tinta);box-shadow:none}
+.btn:disabled{opacity:.6;cursor:wait}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--lila2);outline-offset:2px}
 .aviso{font-size:15px;color:var(--tinta2);margin:10px 2px 0;text-align:center}
 
@@ -199,6 +201,8 @@ footer p{margin:4px 0}
       <div class="muestras" id="oColor"></div>
     </div>
     <button class="btn" type="button" id="bTiras">🖨️ Imprimir</button>
+    <button class="btn pdf" type="button" id="bTirasPdf">📄 Guardar como PDF</button>
+    <p class="aviso" id="pdfEstado" role="status" aria-live="polite" style="display:none"></p>
     <p class="aviso">Salen <span id="cuantas">6</span> tiras en un folio. Imprime al <b>100 %</b>, recorta por los puntos y plastifica.<br>Si no se abre, abre el enlace en Chrome o Safari (no dentro de WhatsApp).</p>
   </div>
 
@@ -287,9 +291,9 @@ footer p{margin:4px 0}
         <textarea id="frasesHoja" aria-label="Frases de la hoja de práctica">el sol sale
 mi gato come pan
 la abeja vuela alto</textarea>
-        <p style="margin-top:8px"><button class="bpeq osc" type="button" id="bHoja">🖨️ Imprimir la hoja</button></p>
+        <p style="margin-top:8px"><button class="bpeq osc" type="button" id="bHoja">🖨️ Imprimir la hoja</button> <button class="bpeq" type="button" id="bHojaPdf">📄 Guardar PDF</button></p>
         <p><b>Diploma:</b> para cuando ya deja el hueco solo. Sale con su nombre y el color elegido.</p>
-        <p><button class="bpeq osc" type="button" id="bDiploma">🖨️ Imprimir el diploma</button></p>
+        <p><button class="bpeq osc" type="button" id="bDiploma">🖨️ Imprimir el diploma</button> <button class="bpeq" type="button" id="bDiplomaPdf">📄 Guardar PDF</button></p>
       </div>
     </details>
 
@@ -353,6 +357,7 @@ la abeja vuela alto</textarea>
 <div id="imprimir" aria-hidden="true"></div>
 
 <script src="dibujo.js?v=6"></script>
-<script src="app.js?v=6"></script>
+<script src="pdf.js?v=1"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

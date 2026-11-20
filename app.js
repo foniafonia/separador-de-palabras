@@ -244,6 +244,32 @@
   };
   $('bDiploma').onclick = function () { imprime([[S.diploma({ piel: pielUna(), color: colorUno(), nombre: nombre() })]], true, 'imprime_diploma'); };
 
+  /* ---------- guardar como PDF (20/11/2026, pedido en Skool): lo mismo que se imprime, en un archivo ---------- */
+  var PDF_OK = !!(window.SeparadorPdf && window.Promise && window.fetch && window.Blob && window.URL && URL.createObjectURL);
+  function estadoPdf(t, mal) { var p = $('pdfEstado'); p.textContent = t; p.style.display = t ? 'block' : 'none'; p.style.color = mal ? '#B3261E' : ''; }
+  function guardaPdf(paginas, clave, boton, sinPdf) {
+    if (!PDF_OK) { estadoPdf('Este aparato no puede preparar el PDF. Pulsa «Imprimir» y elige «Guardar como PDF».', true); if (sinPdf) sinPdf(); return; }
+    var txt0 = boton.textContent; boton.disabled = true; boton.textContent = '⏳ Preparando…'; estadoPdf('Preparando el PDF, unos segundos…');
+    window.SeparadorPdf.crea(paginas, window.SEPARADOR_BASE || '').then(function (r) {
+      var archivo = window.SeparadorPdf.nombreArchivo('separador', nombre());
+      window.SeparadorPdf.guarda(r.bytes, archivo);
+      suma('separa_pdf_' + clave); suma('separa_pdf_dia_' + hoy());
+      estadoPdf('✔ PDF listo (' + archivo + '). Si no se ha guardado, búscalo en Descargas o ábrelo desde la ventana que ha salido. Imprímelo al 100 %.');
+    }).catch(function () {
+      estadoPdf('No se ha podido preparar el PDF en este aparato. Pulsa «Imprimir» y elige «Guardar como PDF».', true);
+    }).then(function () { boton.disabled = false; boton.textContent = txt0; });
+  }
+  $('bTirasPdf').onclick = function () {
+    var N = porFolio(), its = [], n, t; for (n = 0; n < N; n++) { t = tira(n); its.push({ svg: t.svg, w: t.w, h: t.h }); }
+    guardaPdf([{ items: its, giro: false }], 'tiras', this);
+  };
+  function frasesHoja() { var fr = String($('frasesHoja').value || '').split('\n').map(limpio).filter(Boolean).slice(0, 12); return fr.length ? fr : ['el sol sale']; }
+  $('bHojaPdf').onclick = function () {
+    var pags = S.hoja(frasesHoja(), { fw: +A.fw, piel: pielUna(), color: colorUno(), nombre: nombre() }).map(function (s) { return { items: [{ svg: s, w: 281, h: 194 }], giro: true }; });
+    guardaPdf(pags, 'hoja', this);
+  };
+  $('bDiplomaPdf').onclick = function () { guardaPdf([{ items: [{ svg: S.diploma({ piel: pielUna(), color: colorUno(), nombre: nombre() }), w: 281, h: 194 }], giro: true }], 'diploma', this); };
+
   /* ---------- después de imprimir: «¿ya la tienes?» (una vez por visita, si no ha ido ya a Skool) ---------- */
   var gracias = $('vGracias');
   if (!FONIA) $('gCta').appendChild(tarjeta('tras_imprimir'));

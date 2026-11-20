@@ -32,6 +32,9 @@
   <div class="caja"><b id="n_tiras">…</b><span>veces que imprimen tiras</span></div>
   <div class="caja"><b id="n_hoja">…</b><span>hojas de práctica</span></div>
   <div class="caja"><b id="n_diploma">…</b><span>diplomas</span></div>
+  <div class="caja"><b id="n_pdf_tiras">…</b><span>PDF de tiras guardados</span></div>
+  <div class="caja"><b id="n_pdf_hoja">…</b><span>PDF de hojas de práctica</span></div>
+  <div class="caja"><b id="n_pdf_diploma">…</b><span>PDF de diplomas</span></div>
   <div class="caja"><b id="n_personaliza">…</b><span>visitas que diseñan su tira</span></div>
   <div class="caja"><b id="n_juego">…</b><span>visitas que resuelven una frase en «Pruébalo»</span></div>
   <div class="caja"><b id="n_anim">…</b><span>visitas que pasan la animación a mano</span></div>
@@ -73,7 +76,7 @@
   function lee(k) { var p = cola.then(function () { return pide(k, 0); }); cola = p.then(function () { return pausa(450); }); return p; }
   function pon(id, v) { document.getElementById(id).textContent = v === null ? '—' : v; }
   var d0 = new Date(); document.getElementById('hora').textContent = 'Mirado el ' + d0.toLocaleDateString('es-ES') + ' a las ' + d0.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '.';
-  [['n_personas', 'separa_personas'], ['n_aperturas', 'separa_aperturas'], ['n_tiras', 'separa_imprime_tiras'], ['n_hoja', 'separa_imprime_hoja'], ['n_diploma', 'separa_imprime_diploma'],
+  [['n_personas', 'separa_personas'], ['n_aperturas', 'separa_aperturas'], ['n_tiras', 'separa_imprime_tiras'], ['n_hoja', 'separa_imprime_hoja'], ['n_diploma', 'separa_imprime_diploma'], ['n_pdf_tiras', 'separa_pdf_tiras'], ['n_pdf_hoja', 'separa_pdf_hoja'], ['n_pdf_diploma', 'separa_pdf_diploma'],
    ['n_personaliza', 'separa_personaliza'], ['n_juego', 'separa_juego_frase'], ['n_anim', 'separa_animacion'],
    ['n_skool_personas', 'separa_skool_personas'], ['n_skool_pagina', 'separa_skool_pagina'], ['n_skool_tras', 'separa_skool_tras_imprimir'], ['n_gracias', 'separa_gracias_vista']
   ].forEach(function (p) { lee(p[1]).then(function (v) { pon(p[0], v); }); });
